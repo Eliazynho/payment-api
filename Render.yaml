@@ -11,7 +11,6 @@ databases:
 # 2. Definição dos Serviços da Aplicação
 services:
   # a. Job de Migração do Banco de Dados
-  # Este serviço roda ANTES de cada deploy do serviço principal.
   # Sua única função é aplicar as migrações do Prisma.
   - type: pre_deploy # Tipo especial: roda antes do deploy
     name: payment-api-migrator
