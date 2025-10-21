@@ -11,8 +11,8 @@ services:
     plan: free
     repo: https://github.com/Eliazynho/payment-api
     branch: main
-    buildCommand: npm install && npm run build
-    startCommand: npm run render:start
+    buildCommand: npm install # <-- Apenas 'npm install'. O build acontecerá automaticamente.
+    startCommand: npm run render:start # <-- Mantém o script de início
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
