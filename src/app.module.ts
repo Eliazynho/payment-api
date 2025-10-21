@@ -9,9 +9,17 @@ import { CustomersModule } from './customers/customers.module';
 import { ChargesModule } from './charges/charges.module';
 import { ConfigModule } from '@nestjs/config';
 import { HealthModule } from './health/health.module';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -21,6 +29,14 @@ import { HealthModule } from './health/health.module';
     HealthModule,
   ],
   controllers: [AppController, CustomersController],
-  providers: [AppService, PrismaService, CustomersService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+    PrismaService,
+    CustomersService,
+  ],
 })
 export class AppModule {}
