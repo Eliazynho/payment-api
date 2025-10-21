@@ -1,13 +1,42 @@
-# 🧩 Desafio Backend — Sistema de Pagamentos
+# 🚀 Desafio Backend — API de Pagamentos
 
-API RESTful para um sistema de pagamentos simplificado desenvolvido com NestJS, Prisma e PostgreSQL.
+API RESTful robusta e escalável para um sistema de pagamentos simplificado, desenvolvida como parte de um desafio técnico. O projeto foi construído com NestJS, Prisma e PostgreSQL, seguindo as melhores práticas de desenvolvimento de software.
 
-## 🚀 Requisitos
+## ✨ Features Principais
+
+O projeto cumpre todos os requisitos obrigatórios e inclui diversas funcionalidades avançadas para garantir qualidade, segurança e observabilidade.
+
+- **Gestão de Clientes:** Endpoint para criação de clientes com validação de dados e tratamento de duplicidade (`email` e `documento`).
+- **Criação de Cobranças:** Endpoint para criação de cobranças associadas a clientes, suportando múltiplos métodos de pagamento (`PIX`, `Cartão de Crédito`, `Boleto`).
+- **Documentação Interativa:** Documentação completa e testável da API gerada automaticamente com **Swagger (OpenAPI)**.
+- **Testes Abrangentes:** Suíte de testes unitários com **Jest** para garantir a confiabilidade das regras de negócio.
+- **Segurança Essencial:**
+  - **Rate Limiting:** Proteção contra ataques de força bruta e abuso da API (limite de 10 reqs/min por IP).
+  - **Headers de Segurança:** Uso do **Helmet** para proteger contra vulnerabilidades web comuns.
+- **Observabilidade e Monitoramento:**
+  - **Health Check:** Endpoint `/health` que verifica a saúde da aplicação e a conectividade com o banco de dados.
+  - **Logging Estruturado:** Logs contextuais e padronizados para facilitar a depuração.
+- **Boas Práticas de API:**
+  - **Padronização de Erros:** Filtro de exceção global que garante respostas de erro consistentes.
+  - **Controle de Idempotência:** Prevenção de criação de recursos duplicados em caso de re-tentativas de rede através do header `Idempotency-Key`.
+  - **Gestão de Configuração:** Uso do `@nestjs/config` para gerenciar variáveis de ambiente de forma segura.
+
+## 🛠️ Tecnologias Utilizadas
+
+- **Backend:** NestJS
+- **ORM:** Prisma
+- **Banco de Dados:** PostgreSQL
+- **Testes:** Jest
+- **Documentação:** Swagger
+- **Segurança:** Helmet, Throttler (Rate Limiter)
+
+## ⚙️ Configuração do Ambiente
+
+**Pré-requisitos:**
 
 - Node.js (v18+)
+- NPM ou Yarn
 - PostgreSQL
-
-## ⚙️ Configuração
 
 1.  **Clone o repositório:**
 
@@ -23,83 +52,58 @@ API RESTful para um sistema de pagamentos simplificado desenvolvido com NestJS, 
     ```
 
 3.  **Configure as variáveis de ambiente:**
-    - Renomeie o arquivo `.env.example` para `.env`.
-    - Preencha a variável `DATABASE_URL` com os dados da sua conexão PostgreSQL.
+    - Copie o arquivo `.env.example` para `.env`: `cp .env.example .env`
+    - Preencha a variável `DATABASE_URL` no arquivo `.env`:
 
     ```env
-    DATABASE_URL="postgresql://USER:PASSWORD@localhost:5432/DATABASE_NAME?schema=public"
+    DATABASE_URL="postgresql://SEU_USUARIO:SUA_SENHA@localhost:5432/payment_challenge?schema=public"
     ```
 
 4.  **Execute as migrações do banco de dados:**
-    Este comando criará as tabelas necessárias no seu banco.
     ```bash
     npx prisma migrate dev
     ```
 
 ## ▶️ Rodando a Aplicação
 
+Para iniciar a aplicação em modo de desenvolvimento:
+
 ```bash
 npm run start:dev
 ```
 
-A API estará disponível em `http://localhost:3000`.
+A aplicação estará disponível em `http://localhost:3000`.
 
-## 🧪 Testando a API
+## 🧪 Rodando os Testes
 
-### Criar um Cliente
+Para executar a suíte de testes unitários:
 
-**Endpoint:** `POST /customers`
-
-**Body:**
-
-```json
-{
-  "name": "Elias Santos",
-  "email": "elias.santos@example.com",
-  "document": "12345678901",
-  "phone": "11987654321"
-}
+```bash
+npm run test
 ```
 
-**Exemplo com cURL:**
+## 📚 Documentação da API
+
+A documentação interativa da API (Swagger) está disponível em:
+
+**[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
+
+A partir dela, é possível visualizar e testar todos os endpoints disponíveis.
+
+**Exemplo de teste com Idempotência (usando cURL):**
 
 ```bash
 curl -X POST http://localhost:3000/customers \
 -H "Content-Type: application/json" \
+-H "Idempotency-Key: a-unique-key-for-this-request-123" \
 -d '{
-  "name": "Elias Santos",
-  "email": "elias.santos@example.com",
-  "document": "12345678901",
-  "phone": "11987654321"
+  "name": "Cliente Teste",
+  "email": "teste.idempotencia@example.com",
+  "document": "11122233344",
+  "phone": "11912345678"
 }'
 ```
 
-### Criar uma Cobrança (Boleto)
+> Se você executar o mesmo comando duas vezes, a segunda requisição retornará a resposta da primeira sem criar um novo cliente.
 
-**Endpoint:** `POST /charges`
-
-> **Nota:** Substitua o `customerId` pelo ID retornado na criação do cliente.
-
-**Body:**
-
-```json
-{
-  "customerId": "b9a5f3e4-5c6d-4f8a-9b3e-2c1d9f0a7b6c",
-  "amount": 5000,
-  "paymentMethod": "BOLETO",
-  "boletoDueDate": "2025-12-31T23:59:59.000Z"
-}
-```
-
-**Exemplo com cURL:**
-
-```bash
-curl -X POST http://localhost:3000/charges \
--H "Content-Type: application/json" \
--d '{
-  "customerId": "SEU_CUSTOMER_ID",
-  "amount": 5000,
-  "paymentMethod": "BOLETO",
-  "boletoDueDate": "2025-12-31T23:59:59.000Z"
-}'
-```
+---

@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AllExceptionsFilter } from 'src/http-exception/http-exception.filter';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 
 async function bootstrap() {
+  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
 
   app.use(helmet());
@@ -36,10 +35,14 @@ async function bootstrap() {
     }),
   );
 
+  if (process.env.NODE_ENV === 'test') {
+    app.useLogger(false);
+  }
+
   app.useGlobalFilters(new AllExceptionsFilter());
 
   await app.listen(port);
 
-  console.log(`Server running on port ${await app.getUrl()}`);
+  logger.log(`Server running on port ${await app.getUrl()}`);
 }
 bootstrap();

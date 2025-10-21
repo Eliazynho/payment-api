@@ -1,7 +1,8 @@
-import { HttpExceptionFilter } from './http-exception.filter';
+import { AllExceptionsFilter } from './http-exception.filter';
 
-describe('HttpExceptionFilter', () => {
+describe('AllExceptionsFilter', () => {
+  // 👈 Opcional: corrija o nome aqui para consistência
   it('should be defined', () => {
-    expect(new HttpExceptionFilter()).toBeDefined();
+    expect(new AllExceptionsFilter()).toBeDefined();
   });
 });

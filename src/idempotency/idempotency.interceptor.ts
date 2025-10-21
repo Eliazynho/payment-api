@@ -7,6 +7,7 @@ import {
   ExecutionContext,
   Injectable,
   NestInterceptor,
+  Logger,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
@@ -15,6 +16,7 @@ const idempotencyCache = new Map<string, any>();
 
 @Injectable()
 export class IdempotencyInterceptor implements NestInterceptor {
+  private readonly logger = new Logger(IdempotencyInterceptor.name);
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const request = context.switchToHttp().getRequest();
 
@@ -25,13 +27,13 @@ export class IdempotencyInterceptor implements NestInterceptor {
     }
 
     if (idempotencyCache.has(idempotencyKey)) {
-      console.log('Chave de idempotência duplicada:', idempotencyKey);
+      this.logger.warn('Chave de idempotência duplicada:', idempotencyKey);
       return idempotencyCache.get(idempotencyKey);
     }
 
     const response = next.handle();
     response.subscribe((res) => {
-      console.log('Chave de idempotência:', idempotencyKey);
+      this.logger.debug('Chave de idempotência:', idempotencyKey);
       idempotencyCache.set(idempotencyKey, res);
     });
     return next.handle();
