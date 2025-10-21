@@ -1,13 +1,9 @@
-# render.yaml - Blueprint para deploy da API de Pagamentos no Render.com
-
-# 1. Definição do Banco de Dados PostgreSQL
 databases:
   - name: payment-api-db
     databaseName: payment_challenge
     user: elias_santos_dev
     plan: free
 
-# 2. Definição do Serviço da Aplicação
 services:
   - type: web
     name: payment-api
@@ -15,8 +11,8 @@ services:
     plan: free
     repo: https://github.com/Eliazynho/payment-api
     branch: main
-    buildCommand: npm install && npm run build && ls -R
-    startCommand: npx prisma migrate deploy && npm run start:prod
+    buildCommand: npm install && npm run build
+    startCommand: npm run render:start
     healthCheckPath: /health
     envVars:
       - key: NODE_ENV
