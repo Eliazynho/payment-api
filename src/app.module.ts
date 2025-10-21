@@ -7,9 +7,17 @@ import { CustomersService } from './customers/customers.service';
 import { CustomersController } from './customers/customers.controller';
 import { CustomersModule } from './customers/customers.module';
 import { ChargesModule } from './charges/charges.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [PrismaModule, CustomersModule, ChargesModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    PrismaModule,
+    CustomersModule,
+    ChargesModule,
+  ],
   controllers: [AppController, CustomersController],
   providers: [AppService, PrismaService, CustomersService],
 })

@@ -1,10 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AllExceptionsFilter } from 'src/http-exception/http-exception.filter';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  const configService = app.get(ConfigService);
+  const port = configService.get<number>('PORT') || 3000;
 
   const config = new DocumentBuilder()
     .setTitle('API de Pagamentos - Desafio TécnicoI')
@@ -26,6 +33,10 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(process.env.PORT ?? 3000);
+  app.useGlobalFilters(new AllExceptionsFilter());
+
+  await app.listen(port);
+
+  console.log(`Server running on port ${await app.getUrl()}`);
 }
 bootstrap();
