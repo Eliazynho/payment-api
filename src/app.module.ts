@@ -8,6 +8,7 @@ import { CustomersController } from './customers/customers.controller';
 import { CustomersModule } from './customers/customers.module';
 import { ChargesModule } from './charges/charges.module';
 import { ConfigModule } from '@nestjs/config';
+import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     PrismaModule,
     CustomersModule,
     ChargesModule,
+    HealthModule,
   ],
   controllers: [AppController, CustomersController],
   providers: [AppService, PrismaService, CustomersService],
