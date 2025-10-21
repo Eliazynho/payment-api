@@ -1,10 +1,19 @@
-import { Controller, Body, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseInterceptors,
+} from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { IdempotencyInterceptor } from 'src/idempotency/idempotency.interceptor';
 
 @ApiTags('customers')
 @Controller('customers')
+@UseInterceptors(IdempotencyInterceptor)
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 

@@ -1,10 +1,19 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpCode,
+  HttpStatus,
+  UseInterceptors,
+} from '@nestjs/common';
 import { ChargesService } from './charges.service';
 import { CreateChargeDto } from './dto/create-charge.dto';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { IdempotencyInterceptor } from 'src/idempotency/idempotency.interceptor';
 
 @ApiTags('Charges')
 @Controller('charges')
+@UseInterceptors(IdempotencyInterceptor)
 export class ChargesController {
   constructor(private readonly chargesService: ChargesService) {}
 
