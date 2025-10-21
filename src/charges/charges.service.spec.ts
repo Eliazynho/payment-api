@@ -113,8 +113,9 @@ describe('ChargesService', () => {
       await expect(service.create(chargeDto)).rejects.toThrow(
         BadRequestException,
       );
+
       await expect(service.create(chargeDto)).rejects.toThrow(
-        'boletoDueDate is required for BOLETO.',
+        'Boleto due date is required.',
       );
     });
 
@@ -131,7 +132,7 @@ describe('ChargesService', () => {
         BadRequestException,
       );
       await expect(service.create(chargeDto)).rejects.toThrow(
-        'creditCardInstallments is required for CREDIT_CARD.',
+        'Credit card installments is required.',
       );
     });
   });
