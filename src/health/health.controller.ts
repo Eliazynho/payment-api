@@ -6,6 +6,7 @@ import {
   PrismaHealthIndicator,
 } from '@nestjs/terminus';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @ApiTags('health')
 @Controller('health')
@@ -16,6 +17,7 @@ export class HealthController {
     private prisma: PrismaService,
   ) {}
 
+  @SkipThrottle()
   @Get()
   @HealthCheck()
   @ApiOperation({
