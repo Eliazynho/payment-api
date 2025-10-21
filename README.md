@@ -1,6 +1,19 @@
+Com certeza\! Peço desculpas pela confusão anterior.
+
+Aqui está o **código-fonte completo** do seu `README.md`.
+
+Copie todo o bloco de texto abaixo e cole diretamente no seu arquivo `README.md`. O GitHub irá interpretar todos os símbolos (`#`, `*`, ` ``` `) para formatar o texto corretamente.
+
+---
+
+````markdown
 # 🚀 Desafio Backend — API de Pagamentos
 
 API RESTful robusta e escalável para um sistema de pagamentos simplificado, desenvolvida como parte de um desafio técnico. O projeto foi construído com NestJS, Prisma e PostgreSQL, seguindo as melhores práticas de desenvolvimento de software.
+
+**Live API Disponível em:** **[https://payment-api-0456.onrender.com](https://payment-api-0456.onrender.com)**
+
+---
 
 ## ✨ Features Principais
 
@@ -30,7 +43,38 @@ O projeto cumpre todos os requisitos obrigatórios e inclui diversas funcionalid
 - **Documentação:** Swagger
 - **Segurança:** Helmet, Throttler (Rate Limiter)
 
-## ⚙️ Configuração do Ambiente
+## 📚 Documentação da API (Swagger UI)
+
+A documentação interativa da API, onde é possível visualizar e testar todos os endpoints, está disponível em:
+
+**Live:** **[https://payment-api-0456.onrender.com/api-docs](https://payment-api-0456.onrender.com/api-docs)**
+
+(Para desenvolvimento local, a documentação estará em `http://localhost:3000/api-docs` após iniciar o projeto).
+
+## 🧪 Testando a API (Live)
+
+Você pode testar a API ao vivo usando ferramentas como cURL, Insomnia ou Postman.
+
+**Exemplo de criação de cliente com cURL e Idempotência:**
+
+```bash
+curl -X POST https://payment-api-0456.onrender.com/customers \
+-H "Content-Type: application/json" \
+-H "Idempotency-Key: a-unique-key-for-this-request-123" \
+-d '{
+  "name": "Cliente Teste",
+  "email": "teste.idempotencia@example.com",
+  "document": "11122233344",
+  "phone": "11912345678"
+}'
+```
+````
+
+> Se você executar o mesmo comando duas vezes, a segunda requisição retornará a resposta da primeira sem criar um novo cliente.
+
+---
+
+## ⚙️ Configuração do Ambiente Local (Opcional)
 
 **Pré-requisitos:**
 
@@ -38,10 +82,12 @@ O projeto cumpre todos os requisitos obrigatórios e inclui diversas funcionalid
 - NPM ou Yarn
 - PostgreSQL
 
+<!-- end list -->
+
 1.  **Clone o repositório:**
 
     ```bash
-    git clone <URL_DO_SEU_REPOSITORIO>
+    git clone https://github.com/Eliazynho/payment-api.git
     cd payment-api
     ```
 
@@ -55,16 +101,19 @@ O projeto cumpre todos os requisitos obrigatórios e inclui diversas funcionalid
     - Copie o arquivo `.env.example` para `.env`: `cp .env.example .env`
     - Preencha a variável `DATABASE_URL` no arquivo `.env`:
 
+    <!-- end list -->
+
     ```env
     DATABASE_URL="postgresql://SEU_USUARIO:SUA_SENHA@localhost:5432/payment_challenge?schema=public"
     ```
 
 4.  **Execute as migrações do banco de dados:**
+
     ```bash
     npx prisma migrate dev
     ```
 
-## ▶️ Rodando a Aplicação
+## ▶️ Rodando a Aplicação Localmente
 
 Para iniciar a aplicação em modo de desenvolvimento:
 
@@ -74,7 +123,7 @@ npm run start:dev
 
 A aplicação estará disponível em `http://localhost:3000`.
 
-## 🧪 Rodando os Testes
+## 🧪 Rodando os Testes Localmente
 
 Para executar a suíte de testes unitários:
 
@@ -82,28 +131,6 @@ Para executar a suíte de testes unitários:
 npm run test
 ```
 
-## 📚 Documentação da API
-
-A documentação interativa da API (Swagger) está disponível em:
-
-**[http://localhost:3000/api-docs](http://localhost:3000/api-docs)**
-
-A partir dela, é possível visualizar e testar todos os endpoints disponíveis.
-
-**Exemplo de teste com Idempotência (usando cURL):**
-
-```bash
-curl -X POST http://localhost:3000/customers \
--H "Content-Type: application/json" \
--H "Idempotency-Key: a-unique-key-for-this-request-123" \
--d '{
-  "name": "Cliente Teste",
-  "email": "teste.idempotencia@example.com",
-  "document": "11122233344",
-  "phone": "11912345678"
-}'
 ```
 
-> Se você executar o mesmo comando duas vezes, a segunda requisição retornará a resposta da primeira sem criar um novo cliente.
-
----
+```
