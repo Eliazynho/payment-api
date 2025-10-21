@@ -60,8 +60,6 @@ curl -X POST https://payment-api-0456.onrender.com/customers \
 }'
 ```
 
-````
-
 > Se você executar o mesmo comando duas vezes, a segunda requisição retornará a resposta da primeira sem criar um novo cliente.
 
 ---
@@ -122,8 +120,3 @@ Para executar a suíte de testes unitários:
 ```bash
 npm run test
 ```
-
-```
-
-```
-````
