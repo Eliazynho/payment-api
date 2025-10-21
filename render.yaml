@@ -1,0 +1,42 @@
+# render.yaml - Blueprint para deploy da API de Pagamentos no Render.com
+
+# 1. Definição do Banco de Dados PostgreSQL
+databases:
+  - name: payment-api-db
+    databaseName: payment_challenge
+    user: elias_santos_dev
+    plan: free
+
+# 2. Definição dos Serviços da Aplicação
+services:
+  # a. Job de Migração do Banco de Dados
+  - type: pre_deploy
+    name: payment-api-migrator
+    plan: free
+    buildCommand: npm install && npx prisma generate
+    startCommand: npx prisma migrate deploy
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: payment-api-db
+          property: connectionString
+
+  # b. Serviço Principal da API (Aplicação NestJS)
+  - type: web
+    name: payment-api
+    runtime: node
+    plan: free
+    repo: https://github.com/Eliazynho/payment-api # Verifique se esta URL está correta
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: payment-api-db
+          property: connectionString
