@@ -52,4 +52,16 @@ export class ChargesService {
       },
     });
   }
+
+  findAll() {
+    return this.prisma.charge.findMany();
+  }
+
+  async findOne(id: string) {
+    const charge = await this.prisma.charge.findUnique({ where: { id } });
+    if (!charge) {
+      throw new NotFoundException(`Charge with ID "${id}" not found.`);
+    }
+    return charge;
+  }
 }

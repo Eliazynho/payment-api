@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import {
   Controller,
   Body,
@@ -5,6 +6,8 @@ import {
   HttpStatus,
   Post,
   UseInterceptors,
+  Get,
+  Param,
 } from '@nestjs/common';
 import { CustomersService } from './customers.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
@@ -25,5 +28,21 @@ export class CustomersController {
   @ApiResponse({ status: 400, description: 'Dados inválidos' })
   create(@Body() createCustomerDto: CreateCustomerDto) {
     return this.customersService.create(createCustomerDto);
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Listar todos os clientes' })
+  @ApiResponse({ status: 200, description: 'Clientes listados com sucesso' })
+  @ApiResponse({ status: 404, description: 'Nenhum cliente encontrado' })
+  findAll() {
+    return this.customersService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Buscar um cliente por ID' })
+  @ApiResponse({ status: 200, description: 'Cliente encontrado com sucesso' })
+  @ApiResponse({ status: 404, description: 'Cliente não encontrado' })
+  findOne(@Param('id') id: string) {
+    return this.customersService.findOne(id);
   }
 }
