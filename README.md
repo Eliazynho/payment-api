@@ -1,12 +1,3 @@
-Com certeza\! Peço desculpas pela confusão anterior.
-
-Aqui está o **código-fonte completo** do seu `README.md`.
-
-Copie todo o bloco de texto abaixo e cole diretamente no seu arquivo `README.md`. O GitHub irá interpretar todos os símbolos (`#`, `*`, ` ``` `) para formatar o texto corretamente.
-
----
-
-````markdown
 # 🚀 Desafio Backend — API de Pagamentos
 
 API RESTful robusta e escalável para um sistema de pagamentos simplificado, desenvolvida como parte de um desafio técnico. O projeto foi construído com NestJS, Prisma e PostgreSQL, seguindo as melhores práticas de desenvolvimento de software.
@@ -57,7 +48,7 @@ Você pode testar a API ao vivo usando ferramentas como cURL, Insomnia ou Postma
 
 **Exemplo de criação de cliente com cURL e Idempotência:**
 
-```bash
+````bash
 curl -X POST https://payment-api-0456.onrender.com/customers \
 -H "Content-Type: application/json" \
 -H "Idempotency-Key: a-unique-key-for-this-request-123" \
@@ -67,12 +58,9 @@ curl -X POST https://payment-api-0456.onrender.com/customers \
   "document": "11122233344",
   "phone": "11912345678"
 }'
-```
-````
 
 > Se você executar o mesmo comando duas vezes, a segunda requisição retornará a resposta da primeira sem criar um novo cliente.
 
----
 
 ## ⚙️ Configuração do Ambiente Local (Opcional)
 
@@ -119,7 +107,7 @@ Para iniciar a aplicação em modo de desenvolvimento:
 
 ```bash
 npm run start:dev
-```
+````
 
 A aplicação estará disponível em `http://localhost:3000`.
 
