@@ -1,3 +1,5 @@
+# render.yaml - Blueprint para deploy da API de Pagamentos no Render.com
+
 # 1. Definição do Banco de Dados PostgreSQL
 databases:
   - name: payment-api-db
@@ -12,6 +14,8 @@ services:
     runtime: node
     plan: free
     repo: https://github.com/Eliazynho/payment-api
+    branch: main
+    buildCommand: npm install && npm run build && ls -R
     startCommand: npx prisma migrate deploy && npm run start:prod
     healthCheckPath: /health
     envVars:
