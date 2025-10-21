@@ -16,7 +16,7 @@ async function bootstrap() {
   const port = configService.get<number>('PORT') || 3000;
 
   const config = new DocumentBuilder()
-    .setTitle('API de Pagamentos - Desafio TécnicoI')
+    .setTitle('API de Pagamentos - Desafio Técnico')
     .setDescription(
       'Documentação da API RESTful para um sistema de pagamentos simplificado.',
     )
@@ -45,4 +45,4 @@ async function bootstrap() {
 
   logger.log(`Server running on port ${await app.getUrl()}`);
 }
-bootstrap();
+void bootstrap();

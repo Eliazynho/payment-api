@@ -1,7 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   ConflictException,
   Injectable,
@@ -33,12 +29,16 @@ export class CustomersService {
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2002' // Código de violação de restrição única do Prisma
+        error.code === 'P2002'
       ) {
         this.logger.error('Email or document already exists.');
         throw new ConflictException('Email or document already exists.');
       }
-      this.logger.error(`Error creating customer: ${error.message}`);
+      if (error instanceof Error) {
+        this.logger.error(`Error creating customer: ${error.message}`);
+      } else {
+        this.logger.error(`Error creating customer: ${String(error)}`);
+      }
       throw error;
     }
   }
