@@ -1,13 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/unbound-method */
 import { Test, TestingModule } from '@nestjs/testing';
 import { CustomersService } from './customers.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConflictException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
-// Mock do Prisma Client
 const db = {
   customer: {
     create: jest.fn(),
@@ -24,7 +21,7 @@ describe('CustomersService', () => {
         CustomersService,
         {
           provide: PrismaService,
-          useValue: db, // Usamos nosso mock
+          useValue: db,
         },
       ],
     }).compile();
@@ -53,7 +50,6 @@ describe('CustomersService', () => {
         updatedAt: new Date(),
       };
 
-      // Configura o mock para retornar o cliente esperado
       (prisma.customer.create as jest.Mock).mockResolvedValue(expectedCustomer);
 
       const result = await service.create(customerDto);
@@ -71,7 +67,6 @@ describe('CustomersService', () => {
         phone: '11999999999',
       };
 
-      // Simula o erro P2002 do Prisma (unique constraint violation)
       (prisma.customer.create as jest.Mock).mockRejectedValue(
         new Prisma.PrismaClientKnownRequestError('Unique constraint failed', {
           code: 'P2002',
@@ -79,7 +74,6 @@ describe('CustomersService', () => {
         }),
       );
 
-      // Verifica se a chamada ao método realmente lança a exceção esperada
       await expect(service.create(customerDto)).rejects.toThrow(
         ConflictException,
       );

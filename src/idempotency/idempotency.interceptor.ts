@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
-// Em um cenário real, você pode armazenar essas informações em um cache como Redis
 const idempotencyCache = new Map<string, any>();
 
 @Injectable()

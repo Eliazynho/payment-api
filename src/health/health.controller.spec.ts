@@ -1,4 +1,3 @@
-// src/health/health.controller.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { HealthController } from './health.controller';
 import { HealthCheckService, PrismaHealthIndicator } from '@nestjs/terminus';
@@ -10,7 +9,6 @@ describe('HealthController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [HealthController],
-      // 👇 Precisamos fornecer mocks para todas as dependências do controller
       providers: [
         {
           provide: HealthCheckService,
@@ -26,7 +24,7 @@ describe('HealthController', () => {
         },
         {
           provide: PrismaService,
-          useValue: {}, // Pode ser um objeto vazio para este teste simples
+          useValue: {},
         },
       ],
     }).compile();

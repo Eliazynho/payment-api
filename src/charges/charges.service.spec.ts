@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChargesService } from './charges.service';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -77,10 +75,10 @@ describe('ChargesService', () => {
       const result = await service.create(chargeDto);
 
       expect(result).toEqual(expectedCharge);
-      expect(prisma.customer.findUnique).toHaveBeenCalledWith({
+      expect(db.customer.findUnique).toHaveBeenCalledWith({
         where: { id: chargeDto.customerId },
       });
-      expect(prisma.charge.create).toHaveBeenCalled();
+      expect(db.charge.create).toHaveBeenCalled();
     });
 
     it('should throw a NotFoundException if the customer does not exist', async () => {
@@ -98,7 +96,7 @@ describe('ChargesService', () => {
       await expect(service.create(chargeDto)).rejects.toThrow(
         'Customer not found.',
       );
-      expect(prisma.charge.create).not.toHaveBeenCalled();
+      expect(db.charge.create).not.toHaveBeenCalled();
     });
 
     it('should throw a BadRequestException if paymentMethod is BOLETO and boletoDueDate is missing', async () => {
